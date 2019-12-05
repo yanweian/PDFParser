@@ -9,35 +9,36 @@ import java.util.regex.Pattern;
 
 public class Main {
     public static void main(String[] args) {
-        String outFile="out.txt";
-        String inFile=null;
-        for(int i=0;i<args.length;i++){
-            if("-i".equals(args[i])){
-                if(++i>=args.length){
-                    System.out.println("inFile is necessary.");
-                    System.out.println("Usage: java -jar PDFHighLightExtractor.jar -i inFile | Directory [-o output.txt]");
-                    return;
-                }
-                inFile=args[i];
-            }else if("-o".equals(args[i])){
-                if(++i>=args.length){
-                    System.out.println("you add \"-o\", but not input outFile.");
-                    System.out.println("Usage: java -jar PDFHighLightExtractor.jar -i inFile | Directory [-o output.txt]");
-
-                    return;
-                }
-                outFile=args[i];
-            }
-        }
-        if(inFile==null){
-            System.out.println("inFile is necessary.");
-            System.out.println("Usage: java -jar PDFHighLightExtractor.jar -i inFile | Directory [-o output.txt]");
-
-            return;
-        }
+//        String outFile="out.txt";
+//        String inFile=null;
+//        for(int i=0;i<args.length;i++){
+//            if("-i".equals(args[i])){
+//                if(++i>=args.length){
+//                    System.out.println("inFile is necessary.");
+//                    System.out.println("Usage: java -jar PDFHighLightExtractor.jar -i inFile | Directory [-o output.txt]");
+//                    return;
+//                }
+//                inFile=args[i];
+//            }else if("-o".equals(args[i])){
+//                if(++i>=args.length){
+//                    System.out.println("you add \"-o\", but not input outFile.");
+//                    System.out.println("Usage: java -jar PDFHighLightExtractor.jar -i inFile | Directory [-o output.txt]");
+//
+//                    return;
+//                }
+//                outFile=args[i];
+//            }
+//        }
+//        if(inFile==null){
+//            System.out.println("inFile is necessary.");
+//            System.out.println("Usage: java -jar PDFHighLightExtractor.jar -i inFile | Directory [-o output.txt]");
+//
+//            return;
+//        }
+        String outFile="C:\\Users\\yan\\Desktop\\pdftool\\out100.txt";
+        String inFile="C:\\Users\\yan\\Desktop\\pdftool\\pdfs100";
         FileWriter writer;
         try {
-//            writer = new FileWriter("C:\\Users\\yan\\Desktop\\pdftool\\out100.txt");
             writer = new FileWriter(outFile);
             System.out.println("start process pdf.");
             List<File> files=new ArrayList<File>();
@@ -49,6 +50,8 @@ public class Main {
             }
             for (File fin:files
                  ) {
+                System.out.println(fin.getAbsolutePath());
+
                 Extractor extractor = new Extractor(fin,true,false);
                 List<String> strings=extractor.run();
                 for (String s:strings
@@ -68,7 +71,7 @@ public class Main {
             }
             writer.close();
         } catch (IOException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
             System.out.println("Usage: java -jar PDFHighLightExtractor.jar -i inFile | Directory [-o output.txt]");
 
         }

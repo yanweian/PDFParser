@@ -67,13 +67,14 @@ public class Extractor{
             }
             pddDocument.close();
         } catch (Exception ex) {
-            System.out.println("run error.");
-            ex.printStackTrace();
+            System.out.println("run error!!!");
+            System.out.println(in.getAbsolutePath());
         }
         return strings;
     }
 
     private String processHighlight(PDAnnotationTextMarkup highlight, PDPage page) throws IOException {
+
         if ((highlight.getContents() != null && !highlight.getContents().isEmpty())
                 && ((highlight.getSubtype().equals(PDAnnotationTextMarkup.SUB_TYPE_HIGHLIGHT))
                 || (highlight.getSubtype().equals(PDAnnotationTextMarkup.SUB_TYPE_UNDERLINE))))
