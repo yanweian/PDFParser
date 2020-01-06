@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 public class Main {
     private static String outFileSuffix=".txt";
     private static String output="output";
-    private static String dir="C:\\Users\\yan\\Desktop\\PDFParser\\example\\";
+    private static String dir="C:\\Users\\yan\\Desktop\\pdfs\\";
     private static String inFile=dir+"200\\10.1007_s002030050495.pdf";
     private static String outFileAll;
     private static String outFileHighlighted;
@@ -17,6 +17,7 @@ public class Main {
     private static FileWriter writerHighlighted;
     private static FileWriter writerWithoutHighLighted;
 
+//    main函数
     public static void main(String[] args) {
         if(!entry(args)) return;
         try {
@@ -26,8 +27,8 @@ public class Main {
             for (File fin:fileList) {
                 System.out.println("processing "+fin.getAbsolutePath()+"...");
                 Extractor extractor = new Extractor(fin);
-                List<String> highlightedList=extractor.getHighLightedText();
-                processHighlightedList(highlightedList);
+                List<String> fullList=extractor.getFullText();
+                processFullList(fullList);
             }
             closeWriter();
         } catch (IOException e) {
@@ -35,7 +36,13 @@ public class Main {
             System.out.println("Usage: java -jar PDFHighLightExtractor.jar -i inFile | Directory [-o output.txt]");
         }
     }
-
+    // 处理全文本list
+    private static void processFullList(List<String> fullList){
+        for (String s: fullList) {
+            System.out.println(s);
+        }
+    }
+//  处理高亮文本list
     private static void processHighlightedList(List<String> highlightedList){
         // 希腊字母首尾
         char xilastart='α',xilaend='ω';
@@ -50,7 +57,7 @@ public class Main {
             System.out.print(s);
         }
     }
-
+//  替换字符串
     public static String replaceSpecialStr(String str,String res,String replacement) {
         if(res==null) res="\r|\n";
         String repl = "";
@@ -61,7 +68,7 @@ public class Main {
         }
         return repl;
     }
-
+//  处理全文本
     public static String processFullText(String s) {
         // 将-两个空格变成空，将两个空格变成一个空格
         s=replaceSpecialStr(s,"\r\n"," ");
@@ -87,7 +94,7 @@ public class Main {
         s=s.replace("\t","");
         return s;
     }
-
+//  处理高亮文本
     public static String processHighLightedText(String s) {
         // 将-两个空格变成空，将两个空格变成一个空格
         s=replaceSpecialStr(s,"\r\n"," ");
@@ -99,7 +106,7 @@ public class Main {
         s=s.replace(". \r\n",".\r\n");
         return s;
     }
-
+//  入口
     private static boolean entry(String[] args){
         for(int i=0;i<args.length;i++){
             if("-i".equals(args[i])){
@@ -127,22 +134,25 @@ public class Main {
         return true;
     }
 
+    // 拼接文件名
     private static void assembleOutFileString(String output){
         outFileAll=dir+output+"_all"+outFileSuffix;
         outFileHighlighted=dir+output+"_highlighted"+outFileSuffix;
         outFileWithoutHighLighted=dir+output+"_without_highlighted"+outFileSuffix;
     }
-
+//    初始化writer
     private static void initWriter() throws IOException {
         writerAll=new FileWriter(outFileAll);
         writerHighlighted=new FileWriter(outFileHighlighted);
         writerWithoutHighLighted=new FileWriter(outFileWithoutHighLighted);
     }
+//    关闭writer
     private static void closeWriter() throws IOException {
         writerAll.close();
         writerHighlighted.close();
         writerWithoutHighLighted.close();
     }
+//    获取文件list
     private static List<File> getFileList(String inFile){
         List<File> fileList=new ArrayList<File>();
         File in =new File(inFile);
